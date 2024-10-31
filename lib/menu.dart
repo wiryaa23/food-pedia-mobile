@@ -5,7 +5,7 @@ class MyHomePage extends StatelessWidget {
   final String name = 'Wirya Dharma Kurnia'; // Nama
   final String className = 'PBP C'; // Kelas
   final List<ItemHomepage> items = [
-    ItemHomepage("Lihat Daftar Produk", Icons.mood, Colors.red[200]!),
+    ItemHomepage("Lihat Daftar Produk", Icons.food_bank_outlined, Colors.red[200]!),
     ItemHomepage("Tambah Produk", Icons.add, Colors.red[500]!),
     ItemHomepage("Logout", Icons.logout, Colors.red[900]!),
   ];
@@ -67,11 +67,10 @@ class MyHomePage extends StatelessWidget {
                     mainAxisSpacing: 10,
                     crossAxisCount: 3,
                     shrinkWrap: true, // Agar grid menyesuaikan tinggi konten
+                    
                     // Tampilkan ItemCard dan masing-masing dengan warna yang berbeda
-                    children: items.asMap().entries.map((entry) {
-                      int index = entry.key;
-                      ItemHomepage item = entry.value;
-                      return ItemCard(item, colorIndex: index);
+                    children: items.map((ItemHomepage item) {
+                      return ItemCard(item);
                     }).toList(),
                   ),
                 ],
@@ -127,10 +126,8 @@ class ItemCard extends StatelessWidget {
   // Menampilkan kartu dengan ikon dan nama
 
   final ItemHomepage item;
-  final int colorIndex;
 
-
-  ItemCard(this.item, {super.key, required this.colorIndex});
+  const ItemCard(this.item, {super.key}); 
 
   @override
   Widget build(BuildContext context) {
