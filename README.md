@@ -91,3 +91,134 @@ Contoh mudahnya adalah `const` dapat digunakan untuk menyimpan variabel pi dalam
 - Melakukan add, commit, dan push perubahan ke GitHub.
 
 </details>
+
+<details>
+<summary><b>Tugas 8</b></summary>
+
+# Jawaban Soal Tugas 8
+
+
+## 1. Apa kegunaan `const` di Flutter? Jelaskan apa keuntungan ketika menggunakan `const` pada kode Flutter. Kapan sebaiknya kita menggunakan `const`, dan kapan sebaiknya tidak digunakan?
+
+Kegunaan `const` dalam Flutter adalah untuk membuat variabel dengan nilai yang sudah ditetapkan saat waktu kompilasi. `const` akan membuat waktu kompilasi variabel tersebut menjadi konstan. 
+
+**Beberapa keuntungan menggunakan `const` pada kode Flutter adalah sebagai berikut.**
+
+- Peningkatan kinerja proyek		  : Karena waktu kompilasinya konstan, `const` tidak akan diinisialisasi ulang ketika proses *rebuild*. Objek dengan `const` akan dibuat sekali di memori saat program pertama kali dijalankan, sehingga jika Flutter di-*rebuild* maka objek tersebut tidak ikut dibuat ulang.
+- Efisiensi memori			          : Waktu kompilasi yang konstan memungkinkan suatu variabel untuk dibagi antar instance, sehingga dapat mengurangi penggunaan memori.
+- Membantu dalam menangani error  : Nilai `const` tidak bisa diubah setelah ditetapkan, sehingga dapat membantu menemukan kesalahan jika ada perubahan yang tak terduga sejak program di-*compile*.
+
+
+**`const` sebaiknya digunakan ketika:**
+- Membuat widget/elemen/komponen/struktur UI apapun yang statis (tidak akan berubah).
+- Membuat variabel yang nilainya tetap sejak proses *compile*.
+
+**`const` sebaiknya tidak digunakan ketika:**
+- Membuat widget yang memiliki *state*, karena akan membutuhkan pembaruan untuk menyesuaikan dengan perubahan data.
+- Membuat variabel yang nilainya belum ditetapkan saat proses *compile*.
+
+
+
+## 2. Jelaskan dan bandingkan penggunaan *Column* dan *Row* pada Flutter. Berikan contoh implementasi dari masing-masing layout widget ini!
+
+*Column* dan *Row* merupakan dua layout utama yang sering digunakan dalam menyusun elemen dalam Flutter.
+
+- ***Column***
+
+Digunakan untuk menyusun widget elemen *children*-nya secara vertikal. *Column* memiliki beberapa properti utama, seperti *mainAxisAlignment* untuk mengatur posisi widget secara vertikal, dan *crossAxisAlignment* untuk mengatur posisi widget secara horizontal.
+
+Contoh implementasi:
+```dart
+Column(
+  mainAxisAlignment: MainAxisAlignment.center,
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    Text("Nama"),
+    Text("NPM"),
+    Text("Kelas"),
+  ],
+)
+```
+Dalam tugas ini, implementasi *Column* banyak ditemukan pada `foodentry_form.dart`, `menu.dart`, `food_card.dart`, dan `left_drawer.dart`.
+
+- ***Row***
+
+Digunakan untuk menyusun widget elemen *children*-nya secara horizontal. *Row* juga memiliki properti utama yang sama seperti *Column*, meski terdapat sedikit perbedaan dalam fungsionalitasnya. Pada *Row*, *mainAxisAlignment* digunakan untuk mengatur posisi widget secara horizontal, sedangkan *crossAxisAlignment* untuk mengatur posisi widget secara vertikal.
+
+Contoh implementasi:
+```dart
+Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  crossAxisAlignment: CrossAxisAlignment.center,
+  children: [
+    Text("Nama"),
+    Text("NPM"),
+    Text("Kelas"),
+  ],
+)
+```
+Dalam tugas ini, implementasi *Row* dapat dilihat pada `menu.dart` khususnya pada bagian yang menampilkan *InfoCard* NPM, nama, dan kelas.
+
+
+## 3. Sebutkan apa saja elemen input yang kamu gunakan pada halaman *form* yang kamu buat pada tugas kali ini. Apakah terdapat elemen input Flutter lain yang tidak kamu gunakan pada tugas ini? Jelaskan!
+
+Elemen input yang digunakan pada halaman *form* pada tugas kali ini hanyalah *TextFormField* saja. *TextFormField* digunakan untuk menerima input teks, di mana pada tugas kali ini ada 3 buah form yang berbeda yakni *Food* untuk input nama makanan, *Amount* untuk input jumlah makanan, dan *Description* untuk deskripsi makanan.
+
+Selain *TextFormField*, ada elemen-elemen input Flutter lain yang belum digunakan pada tugas kali ini, yaitu sebagai berikut.
+
+- *TextField*
+
+Digunakan untuk mengambil input sederhana. Sejatinya, *TextField* mirip dengan *TextFormField*. Hanya saja, *TextFormField* adalah *TextField* dengan fungsionalitas tambahan yang salah satunya untuk validasi. Tugas kali ini menggunakan *TextFormField* karena lebih praktis untuk validasi yang harus dilakukan.
+
+- *Checkbox*
+
+Digunakan untuk memilih opsi yang diinginkan. Adapun versi lebih tinggi dari *Checkbox* yaitu *CheckboxListTile*. Perbedaan utamanya adalah *Checkbox* lebih fleksibel dan sederhana karena hanya menampilkan kontak centang tanpa label teks meski membutuhkan tata letak tambahan untuk labelnya, sedangkan *CheckboxListTile* menampilkan kotak centang dengan label teks di sebelahnya dan cocok untuk form yang memiliki banyak opsi pilihan.
+
+- *Radio*
+
+Digunakan untuk memilih salah satu pilihan dari beberapa opsi yang disediakan.
+
+- *Switch*
+
+Digunakan untuk membuat *toggle* yang menampilkan salah satu status yang dipilih saat ini. *Switch* juga memiliki versi lebih tinggi seperti *Checkbox*, yaitu *SwitchListTile*. Perbedaannya pun mirip dengan *Checkbox* dan *CheckboxListTile*, di mana *Switch* lebih fleksibel dan sederhana, sedangkan *SwtichListTile* lebih mudah dalam menampilkan label di samping *toggle*.
+
+- *DropdownButton*
+
+Digunakan untuk memilih suatu pilihan dari opsi yang disediakan pada daftar *dropdown*. 
+
+- *Slider*
+
+Digunakan untuk memilih nilai tertentu dari rentang yang telah disediakan. Cara kerjanya adalah dengan menggeser tombol di sepanjang *track* tertentu.
+
+- *DateTimeField*
+
+Digunakan untuk memilih tanggal atau waktu tertentu seperti menyertakan hari, bulan, dan tahun, atau bisa juga sampai jam, menit, dan detik.
+
+
+## 4. Bagaimana cara kamu mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten? Apakah kamu mengimplementasikan tema pada aplikasi yang kamu buat?
+
+Untuk mengatur tema (theme) dalam aplikasi Flutter agar aplikasi yang dibuat konsisten, hal yang bisa dilakukan adalah menentukan tema global dengan *MaterialApp*. *MaterialApp* akan mendefinisikan `theme: ThemeData()` yang akan mengatur pengaturan warna, *style button*, jenis *font*, dan lain-lain. Biasanya *MaterialApp* digunakan di file `main.dart`.
+
+
+Pada tugas kali ini, saya mengimplementasikan tema pada aplikasi yang saya buat dengan mendefinisikannya secara global di file `main.dart` dengan *MaterialApp* dan properti *theme*. Tema warna yang saya gunakan untuk aplikasi ini adalah warna merah. Implementasinya pada kode saya secara khusus dapat dilihat dari cuplikan kode di bawah ini.
+```dart
+theme: ThemeData(
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: Colors.red,
+        ).copyWith(secondary: Colors.red[300]),
+        useMaterial3: true,
+      ),
+```
+
+
+## 5. Bagaimana cara kamu menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter?
+
+Untuk menangani navigasi dalam aplikasi dengan banyak halaman pada Flutter, saya menggunakan `Navigator.push()` dan `Navigator.pushReplacement()` sesuai kebutuhan. Keduanya akan memiliki parameter `context` dan `MaterialPageRoute()`, yang mengandung informasi yang dibutuhkan program untuk mengarahkan pengguna ke halaman yang diminta ketika terjadi suatu *event* yang men-*trigger* perpindahan halaman. Perbedaan dari kedua fungsi tersebut adalah `Navigator.push()` akan menambahkan halaman baru ke dalam *stack*, sehingga pengguna dapat kembali ke halaman sebelumnya dengan `Navigator.pop()`. Sementara pada `Navigator.pushReplacement()`, halaman yang ada saat ini dihapus dari *stack* dan langsung diganti dengan halaman baru yang diminta pengguna, sehingga pengguna tidak dapat kembali ke halaman sebelumnya.
+
+Selain itu, navigasi dalam aplikasi juga didukung dengan adanya *Drawer* di sisi kiri layar. *Drawer* berfungsi untuk memudahkan pengguna dalam mengakses halaman-halaman yang ada, karena setiap *item* di dalam *Drawer* mewakili fitur/halaman yang ada dalam aplikasi secara keseluruhan. Setiap *item* dalam *Drawer* kemudian juga dipasangkan dengan `Navigator.push()` atau `Navigator.pushReplacement()` untuk melakukan *routing* ke halaman yang bersangkutan ketika *item* tersebut ditekan.
+
+Dalam tugas kali ini, saya menggunakan `Navigator.push()` di `food_card.dart` dan `left_drawer.dart` sebagai *event* yang ter-*trigger* ketika menekan tombol *Add New Food*. Sementara itu, saya menggunakan `Navigator.pushReplacement()` di `left_drawer.dart` sebagai *event* yang ter-*trigger* ketika menekan tombol *Home*.
+
+
+</details>
+

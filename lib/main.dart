@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_pedia/menu.dart';
+import 'package:food_pedia/screens/menu.dart';
 
 void main() {
   runApp(const MyApp());
