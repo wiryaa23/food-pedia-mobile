@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_pedia/screens/menu.dart';
 import 'package:food_pedia/screens/foodentry_form.dart';
+import 'package:food_pedia/screens/list_foodentry.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -61,7 +62,7 @@ class LeftDrawer extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.food_bank_outlined),
               title: const Text('Add New Food'),
-              // Bagian redirection ke MoodEntryFormPage
+              // Bagian redirection FoodEntryFormPage
               onTap: () {
                 Navigator.push(
                   context,
@@ -69,6 +70,17 @@ class LeftDrawer extends StatelessWidget {
                     builder: (context) => const FoodEntryFormPage(), // Route to FoodEntryFormPage
                   ),
                 );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add_reaction_rounded),
+              title: const Text('Food List'),
+              onTap: () {
+                  // Route menu ke halaman mood
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const FoodEntryPage()),
+                  );
               },
             ),
         ],

@@ -219,6 +219,58 @@ Selain itu, navigasi dalam aplikasi juga didukung dengan adanya *Drawer* di sisi
 
 Dalam tugas kali ini, saya menggunakan `Navigator.push()` di `food_card.dart` dan `left_drawer.dart` sebagai *event* yang ter-*trigger* ketika menekan tombol *Add New Food*. Sementara itu, saya menggunakan `Navigator.pushReplacement()` di `left_drawer.dart` sebagai *event* yang ter-*trigger* ketika menekan tombol *Home*.
 
+</details>
+
+<details>
+<summary><b>Tugas 9</b></summary>
+
+# Jawaban Soal Tugas 9
+
+
+## 1. Jelaskan mengapa kita perlu membuat model untuk melakukan pengambilan ataupun pengiriman data JSON? Apakah akan terjadi error jika kita tidak membuat model terlebih dahulu?
+
+Kita perlu membuat model untuk pengambilan atau pengiriman data JSON karena model digunakan dalam mendefinisikan struktur data. Model mempermudah proses pemetaan data JSON sehingga strukturnya menjadi terorganisir. Dengan demikian, proses validasi, manipulasi, dan pengolahan data juga akan menjadi lebih mudah. Jika kita tidak menggunakan model, maka penanganan data harus dilakukan secara manual. Hal tersebut jauh lebih rumit karena data lebih rawan error, sulit di-*maintain*, dan harus membuat proses tertentu lagi untuk menyamakan tipe data untuk suatu field data. Selain itu, tidak menggunakan model berpotensi membuka celah untuk masalah keamanan seperti injeksi data yang berbahaya atau manipulasi data.
+
+
+## 2. Jelaskan fungsi dari library http yang sudah kamu implementasikan pada tugas ini.
+
+Library http yang diimplementasikan pada tugas ini memiliki beberapa fungsi dalam aplikasi Flutter. Fungsi yang pertama adalah untuk mengirim request HTTP ke server backend, seperti GET dan POST. Fungsi lainya yaitu menerima respons dari server seperti mem-*parsing* data JSON yang di-*return*. Secara umum, library http bertugas sebagai penghubung antara aplikasi Flutter dan API backend untuk mengurus persoalan pertukaran data yang dilakukan pada aplikasi.
+
+
+## 3. Jelaskan fungsi dari CookieRequest dan jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter.
+
+CookieRequest merupakan sebuah kelas untuk mengelola request HTTP di aplikasi Flutter, khususnya untuk aplikasi yang memiliki autentikasi berbasis cookie. CookieRequest berfungsi untuk menyimpan cookie sesi dari user, agar dapat mempertahankan status autentikasi user tersebut misalnya dalam login. Cookie ini akan ikut dikirim secara otomatis bersama request HTTP jika request tersebut memerlukan autentikasi, sehingga user tidak perlu login ulang setiap akan menggunakan fitur yang memerlukan autentikasi. Instance CookieRequest perlu dibagikan ke semua komponen di aplikasi Flutter agar semua fitur aplikasi yang memerlukan autentikasi dapat memiliki status sesi yang sama tanpa harus dikelola kembali pada setiap fitur aplikasi. Selain itu, membagikannya ke semua komponen juga akan membantu mengelola cookie dengan lebih konsisten dan efisien.
+
+
+## 4. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter.
+
+Mekanisme pengiriman data pada Flutter terdiri dari beberapa langkah. Pertama, akan dilakukan pengambilan input user, yang dilakukan setelah user memasukkan data melalui form. Data tersebut kemudian diolah di *Frontend* terlebih dahulu untuk validasi dasar, baru dikirim ke *Backend* melalui request HTTP seperti POST. Data ini biasanya dikirim dalam format JSON. Setelah data selesai diproses di *Backend*, data akan dikirim kembali ke Flutter sebagai respons dari server. Respons ini akan diterima dan ditampilkan kepada user sesuai dengan format UI atau *interface* yang telah dibuat pada aplikasi Flutter.
+
+
+## 5. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter.
+
+Mekanisme autentikasi melibatkan beberapa langkah antara aplikasi Flutter sebagai *Frontend* dan Django sebagai *Backend*. Dimulai dari proses login, user akan mengisi data seperti *username* dan *password* yang kemudian dikirim ke Django melalui request HTTP POST. Django akan melakukan validasi dan jika autentikasi tersebut berhasil, maka Django akan mengembalikan cookie atau token sesi yang disimpan di CookieRequest ke Flutter sehingga user dapat menggunakan fitur user. 
+
+Untuk proses registerasi, user juga akan mengirim data ke Django untuk mendaftarkan kredensial yang akan digunakan. Server Django akan melakukan validasi register dan jika semua syarat pembuatan akun terpenuhi, Django akan membuat akun baru dan menyimpan data user ke database.
+
+Sementara itu untuk proses logout, Flutter akan mengirimkan request kepada Django untuk menghapus sesi user tersebut. Setelah diterima, Django akan memastikan user benar-benar sudah keluar kemudian menghapus token autentikasi. User kemudian akan diarahkan kembali ke halaman login aplikasi.
+
+
+## 6. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step! (bukan hanya sekadar mengikuti tutorial).
+
+- Fitur pertama yang saya implementasikan adalah fitur register. Saya membuat aplikasi `authentication` dan menambahkan fungsi register di `views.py` untuk melakukan validasi input.
+- Melakukan konfigurasi path `authentication` di `urls.py` proyek utama.
+- Membuat `register.dart` pada Flutter yang isinya sebagai tampilan form registrasi dengan widget-widget yang dibutuhkan untuk keperluan registerasi. Form ini kemudian dihubungkan dengan endpoint Django dengan package `pbp_django_auth`, dan akan menampilkan *error message* jika registrasi gagal, serta mengarahkan ke halaman login jika registrasi berhasil.
+- Membuat halaman login pada Flutter. Dilakukan dengan menambahkan fungsi login di `views.py` proyek Django untuk verifikasi kredensial, dan melakukan konfigurasi path di `urls.py`. Sementara di Flutter, saya membuat `login.dart` sebagai tampilan form login. Form ini dilengkapi dengan CookieRequest dari `pbp_django_auth` untuk mengirim data user yang login ke server Django.
+- Melakukan integrasi sistem autentikasi Django dengan Flutter. Hal ini dilakukan dengan mengatur middleware CorsMiddleware pada `settings.py` proyek Django agar dapat mendukung komunikasi antar domain. Tak lupa juga menambahkan variabel konfigurasi seperti *CORS_ALLOW_ALL_ORIGINS* dan *ALLOWED_HOSTS*. Untuk Flutter, saya menambahkan *Provider* pada `main.dart` untuk menyediakan objek CookieRequest ke seluruh aplikasi agar session user dapat digunakan dalam aplikasi secara global.
+- Karena model product pada Django saya memiliki atribut seperti *name*, *price*, *description*, *quantity*, dan *rating*, maka pada Flutter saya menggunakan *Quicktype* untuk membuat model Dart yang sesuai dari data JSON yang dihasilkan oleh endpoint Django.
+- Membuat halaman daftar item pada Flutter yaitu `list_foodentry.dart` dengan memakan FutureBuilder untuk emngambil data dari endpoint Django menggunakan CookieRequest.get. Data kemudian ditampilkan dengan widget ListView.builder agar dapat menampilkan atributnya seperti *name*, *price*, *description*, *quantity*, dan *rating*. Tak lupa saya juga memastikan view JSON agar hanya menampilkan item yang dibuat oleh user yang sedang login, di mana hal ini dilakukan menggunakan request.user.
+- Membuat fitur logout. Pada Django, saya membuat fungsi logout pada `views.py` yang memanggil `auth_logout` untuk menghapus sesi dari user yang sedang login. Sementara pada Flutter, saya juga mengimplementasikan fitur ini dengan membuat fungsi tombol logout sehingga ketika ditekan akan mengarahkan user kembali ke halaman login.
+- Mengintegrasikan form input di Flutter dengan Django. Pada Django, saya menambahkan path `create-flutter/` untuk menerima data dari Flutter dan menyimpannya ke database Django. Sementara pada Flutter, saya membuat form dengan `pbp_django_auth` untuk mengirinm data form ke Django.
+- Mengubah tampilan yang ditampilkan oleh `foodentry.list` menjadi menampilkan semua item yang dibuat oleh user, namun hanya beberapa data dari masing-masing item yang ditampilkan yaitu *name*, *price*, dan *description*.
+- Membuat `food_detail.dart` yang terhubung dengan setiap item di `foodentry.list`. Jika item pada `foodentry.list` ditekan, maka akan menampilkan halaman `food_detail.dart` yang memunculkan seluruh informasi mengenai item tersebut.
+- Melakukan add, commit, dan push perubahan ke GitHub.
+
 
 </details>
 
